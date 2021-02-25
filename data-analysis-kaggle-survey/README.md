@@ -14,4 +14,4 @@ As a student, I am interested in what the data science industry is like. What be
 
 ## 3. Analysis
 
-The full analysis can be found in the [notebook]() while a summarized blog post can be found [here](). 
+The full analysis can be found in the [notebook](https://github.com/AhmadHatziq/data-science-nanodegree/blob/main/data-analysis-kaggle-survey/notebook/kaggle-survey-analysis-course-project.ipynb) while a summarized blog post can be found [here](). 
