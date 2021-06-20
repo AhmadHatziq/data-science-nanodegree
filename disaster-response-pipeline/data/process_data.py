@@ -1,10 +1,3 @@
-import sys
-
-import numpy as np 
-import pandas as pd
-
-from sqlalchemy import create_engine
-
 '''
     The purpose of this python file is to do the ETL process ie 
     combine / merge the data in disaster_categories.csv and disaster_messages.csv
@@ -14,6 +7,13 @@ from sqlalchemy import create_engine
     python process_data.py disaster_messages.csv disaster_categories.csv  DisasterResponse.db
     
 '''
+
+import sys
+
+import numpy as np 
+import pandas as pd
+
+from sqlalchemy import create_engine
 
 '''
     Loads the disaster categories and messages data from their respective csvs, merges them and
