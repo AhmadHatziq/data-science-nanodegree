@@ -4,7 +4,7 @@
     into a single MESSAGES.db file. 
     
     Sample usage: 
-    python process_data.py disaster_messages.csv disaster_categories.csv  DisasterResponse.db
+    python process_data.py disaster_messages.csv disaster_categories.csv MESSAGES.db
     
 '''
 
@@ -89,7 +89,7 @@ def clean_data(combined_df):
 def save_data(combined_df, database_filename):
     create_engine_string = r"sqlite:///" + database_filename
     engine = create_engine(create_engine_string)
-    combined_df.to_sql(database_filename, engine, index = False)
+    combined_df.to_sql('MESSAGES', engine, index = False)
     return
 
 
