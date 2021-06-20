@@ -14,6 +14,9 @@ import re
 import sys
 import warnings
 
+from nltk.corpus import stopwords
+from nltk.stem.porter import PorterStemmer
+from nltk.tokenize import word_tokenize
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, make_scorer, precision_recall_fscore_support
@@ -22,14 +25,10 @@ from sklearn.multioutput import MultiOutputClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.svm import SVC
 from sqlalchemy import create_engine
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
-from nltk.stem.porter import PorterStemmer
 
 nltk.download('punkt')
 nltk.download('stopwords')
 warnings.simplefilter('ignore')
-
 
 """
     Loads information from the database. 
@@ -83,17 +82,81 @@ def tokenize(text):
     
     return normlized
 
+"""
+    Gets classification metrics (f_score, precision, recall).  
+    
+    Args:
+        param1 (y_test): True labels. 
+        param2 (y_pred): Predicted labels
+        
+    Returns: 
+        output1 (results_df): Dataframe of classification metrics.  
+        output2 (scores): List of averaged metrics. 
+"""    
+def get_metrics(y_test, y_pred):
+    
+    # Get dataframe of f_score, precision, recall for each category
+    results_df = pd.DataFrame(columns=['Category', 'f_score', 'precision', 'recall'])
+    num = 0
+    for cat in y_test.columns:
+        precision, recall, f_score, support = precision_recall_fscore_support(y_test[cat], y_pred[:,num], average='weighted')
+        
+        results_df.at[num + 1, 'Category'] = cat
+        results_df.at[num + 1, 'f_score'] = f_score
+        results_df.at[num + 1, 'precision'] = precision
+        results_df.at[num + 1, 'recall'] = recall
+        num += 1
+        
+    # Get averaged scores
+    scores = {}
+    scores['Average f_score'] =  results_df['f_score'].mean()
+    scores['Average precision'] = results_df['precision'].mean()
+    scores['Average recall'] = results_df['recall'].mean()
 
+    return results_df, scores    
+
+"""
+    Returns a GridSearchCV object for training. 
+    Best parameters are obtained from notebook.
+    
+    Returns: 
+        output1 (GridSearchCV): GridSearchCV object. 
+"""
 def build_model():
-    pass
+    pipe = Pipeline([
+    ('vect', CountVectorizer(tokenizer = tokenize)),
+    ('tfidf', TfidfTransformer()),
+    ('clf', MultiOutputClassifier(RandomForestClassifier()))
+                    ])
+                    
+    parameters = {'clf__estimator__max_depth': [None],
+              'clf__estimator__n_estimators': [50]}
 
+    cv = GridSearchCV(pipe, parameters)   
+    
+    return cv
 
-def evaluate_model(model, X_test, Y_test, category_names):
-    pass
+"""
+    Generate predictions and returns classification metrics. 
+    
+    Returns: 
+        output1 (results_df): Dataframe of classification metrics.  
+        output2 (scores): List of averaged metrics. 
+"""
+def evaluate_model(model, X_test, Y_test):
+    Y_preds = model.predict(X_test)
+    return get_metrics(Y_test, Y_preds)
 
-
+"""
+    Saves the model to the specified file path.  
+    
+    Args: 
+        input1 (model): Model to be saved.  
+        input2 (model_filepath): File path to save the model in.
+"""
 def save_model(model, model_filepath):
-    pass
+    pickle.dump(model, open(model_filepath, 'wb'))
+    return
 
 '''
     Main driver function for the model training process. 
@@ -108,27 +171,29 @@ def main():
         print('Loading data...\n    DATABASE: {}'.format(database_filepath))
         X, Y = load_data(database_filepath)
         
-        print(X.head())
-        print(Y.head())
-        
-        '''
         # Split to train and test sets
         X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2)
         
         print('Building model...')
         model = build_model()
         
+        
         print('Training model...')
         model.fit(X_train, Y_train)
+        print('Model training finished.')
+        
         
         print('Evaluating model...')
-        evaluate_model(model, X_test, Y_test, category_names)
+        metrics_df, avg_metrics = evaluate_model(model, X_test, Y_test)
+        print('Model performance:')
+        print(avg_metrics)
 
+        
         print('Saving model...\n    MODEL: {}'.format(model_filepath))
         save_model(model, model_filepath)
 
         print('Trained model saved!')
-        '''
+        
 
     else:
         print('Please provide the filepath of the disaster messages database '\
