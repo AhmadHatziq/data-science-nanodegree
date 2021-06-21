@@ -1,7 +1,9 @@
 # Disaster Response Pipeline Project
 
 ## 1. Summary 
-This project aims to create a web application which utilizes a machine learning classification model to classify disaster Twitter messages. For more details, please see sections 2 and 3. 
+This project aims to create a web application which utilizes a machine learning classification model to classify disaster Twitter messages. The purpose of the application is to help organizations or people in the event of a disaster. An emergency worker can input a new message and get classification results in several categories.
+
+For more details, please see sections 2 and 3. 
 
 ### a. Model performance metrics
 
