@@ -15,7 +15,8 @@ import pandas as pd
 
 from sqlalchemy import create_engine
 
-'''
+def load_data(messages_filepath, categories_filepath):
+    '''
     Loads the disaster categories and messages data from their respective csvs, merges them and
     returns a single combined dataframe. 
     
@@ -25,8 +26,7 @@ from sqlalchemy import create_engine
         
     Returns: 
         output1 (combined_df): Dataframe containing messages and categories data. 
-'''
-def load_data(messages_filepath, categories_filepath):
+    '''
 
     # Load both csv files. 
     categories_df = pd.read_csv(categories_filepath)
@@ -37,7 +37,9 @@ def load_data(messages_filepath, categories_filepath):
     
     return combined_df
 
-'''
+
+def clean_data(combined_df):
+    '''
     Cleans the dataframe of combined messages and categories data. 
     
     Args:
@@ -45,8 +47,8 @@ def load_data(messages_filepath, categories_filepath):
         
     Returns: 
         output1 (combined_df): Cleaned dataframe.
-'''
-def clean_data(combined_df):
+    '''
+    
     # Split categories into seperate category columns. 
     categories = combined_df['categories'].str.split(';', expand = True)
     
@@ -76,7 +78,8 @@ def clean_data(combined_df):
     
     return combined_df
 
-'''
+def save_data(combined_df, database_filename):
+    '''
     Saves the input dataframe into a sqlite db file. 
     
     Args:
@@ -85,18 +88,18 @@ def clean_data(combined_df):
         
     Returns: 
         Does not return anything. 
-'''
-def save_data(combined_df, database_filename):
+    '''
+    
     create_engine_string = r"sqlite:///" + database_filename
     engine = create_engine(create_engine_string)
     combined_df.to_sql('MESSAGES', engine, index = False)
     return
 
 
-'''
-    Main driver function for the ETL process. 
-'''
 def main():
+    '''
+    Main driver function for the ETL process. 
+    '''
 
     print('Starting ETL process...')
 

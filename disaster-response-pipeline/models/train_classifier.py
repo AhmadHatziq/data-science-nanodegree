@@ -30,7 +30,8 @@ nltk.download('punkt')
 nltk.download('stopwords')
 warnings.simplefilter('ignore')
 
-"""
+def load_data(database_filepath):
+    """
     Loads information from the database. 
     
     Args:
@@ -40,8 +41,8 @@ warnings.simplefilter('ignore')
         output1 (X): Columns to train on. 
         output2 (Y): Labels. 
         
-"""
-def load_data(database_filepath):
+    """
+
     # Create engine and connect to database. 
     create_engine_string = r"sqlite:///" + database_filepath
     engine = create_engine(create_engine_string)
@@ -53,7 +54,9 @@ def load_data(database_filepath):
     
     return X, Y
 
-"""
+
+def tokenize(text):
+    """
     Tokenizes a string text to a list of tokens. 
     
     Args:
@@ -65,8 +68,7 @@ def load_data(database_filepath):
     Sample: 
         Raw text: I am in Petionville. I need more information regarding 4636
         Tokenized: ['petionvil', 'need', 'inform', 'regard', '4636']
-"""
-def tokenize(text):
+    """
 
     # Converting everything to lower case
     text = re.sub(r"[^a-zA-Z0-9]", " ", text.lower())
@@ -81,8 +83,9 @@ def tokenize(text):
     normlized = [normlizer.stem(word) for word in tokens if word not in stop_words]
     
     return normlized
-
-"""
+   
+def get_metrics(y_test, y_pred):
+    """
     Gets classification metrics (f_score, precision, recall).  
     
     Args:
@@ -92,8 +95,7 @@ def tokenize(text):
     Returns: 
         output1 (results_df): Dataframe of classification metrics.  
         output2 (scores): List of averaged metrics. 
-"""    
-def get_metrics(y_test, y_pred):
+    """ 
     
     # Get dataframe of f_score, precision, recall for each category
     results_df = pd.DataFrame(columns=['Category', 'f_score', 'precision', 'recall'])
@@ -115,14 +117,15 @@ def get_metrics(y_test, y_pred):
 
     return results_df, scores    
 
-"""
+def build_model():
+    """
     Returns a GridSearchCV object for training. 
     Best parameters are obtained from notebook.
     
     Returns: 
         output1 (GridSearchCV): GridSearchCV object. 
-"""
-def build_model():
+    """
+    
     pipe = Pipeline([
     ('vect', CountVectorizer(tokenizer = tokenize)),
     ('tfidf', TfidfTransformer()),
@@ -136,32 +139,37 @@ def build_model():
     
     return cv
 
-"""
+
+def evaluate_model(model, X_test, Y_test):
+    """
     Generate predictions and returns classification metrics. 
     
     Returns: 
         output1 (results_df): Dataframe of classification metrics.  
         output2 (scores): List of averaged metrics. 
-"""
-def evaluate_model(model, X_test, Y_test):
+    """
+    
     Y_preds = model.predict(X_test)
     return get_metrics(Y_test, Y_preds)
 
-"""
+
+def save_model(model, model_filepath):
+    """
     Saves the model to the specified file path.  
     
     Args: 
         input1 (model): Model to be saved.  
         input2 (model_filepath): File path to save the model in.
-"""
-def save_model(model, model_filepath):
+    """
+    
     pickle.dump(model, open(model_filepath, 'wb'))
     return
 
-'''
-    Main driver function for the model training process. 
-'''
+
 def main():
+    '''
+    Main driver function for the model training process. 
+    '''
 
     print('Starting model training process...')
 
