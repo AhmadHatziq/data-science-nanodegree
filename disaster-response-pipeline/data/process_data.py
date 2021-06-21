@@ -72,6 +72,9 @@ def clean_data(combined_df):
     # Remove duplicates. 
     combined_df.drop_duplicates(inplace = True)
     
+    # Convert 'related' column to binary. Set all '2' to '1'.  
+    combined_df['related'].loc[(combined_df['related'] == 2)] = 1
+    
     # Log combined_df.head(). 
     print('Sample data from cleaned dataframe:')
     print(combined_df.head())
