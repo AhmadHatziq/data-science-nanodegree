@@ -21,7 +21,7 @@ from nltk.tokenize import word_tokenize
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, make_scorer, precision_recall_fscore_support
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, make_scorer, precision_recall_fscore_support, classification_report
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.multioutput import MultiOutputClassifier
 from sklearn.pipeline import Pipeline
@@ -117,6 +117,13 @@ def get_metrics(y_test, y_pred):
     scores['Average f_score'] =  results_df['f_score'].mean()
     scores['Average precision'] = results_df['precision'].mean()
     scores['Average recall'] = results_df['recall'].mean()
+    
+    # Print directly using sklearn's classification_report
+    category_names = y_test.columns
+    for i in range(len(category_names)): 
+        print(category_names[i]) 
+        print(classification_report(y_test[category_names[i]], y_pred[:, i]))
+    
 
     return results_df, scores    
 
@@ -138,7 +145,7 @@ def build_model():
     parameters = {'clf__estimator__max_depth': [None],
               'clf__estimator__n_estimators': [50]}
 
-    cv = GridSearchCV(pipe, parameters)   
+    cv = GridSearchCV(pipe, parameters, verbose = 3)   
     
     return cv
 
