@@ -15,6 +15,10 @@ The performance metrics are as follows:
 
 ![Model performance](https://github.com/AhmadHatziq/data-science-nanodegree/blob/main/disaster-response-pipeline/images/model_performance.png)
 
+Using classification_report from sklearn, each category's classification metrics can be seen after model training:
+
+![Classification Report](https://github.com/AhmadHatziq/data-science-nanodegree/blob/main/disaster-response-pipeline/images/classification_report.png)
+
 ### b. Web app visualizations
 
 A screenshot of the visualizations are as follows:
