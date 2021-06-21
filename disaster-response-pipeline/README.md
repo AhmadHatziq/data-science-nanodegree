@@ -1,6 +1,26 @@
 # Disaster Response Pipeline Project
 
-## 1. Description of files in this folder
+## 1. Summary 
+This project aims to create a web application which utilizes a machine learning classification model to classify disaster Twitter messages. For more details, please see sections 2 and 3. 
+
+### a. Model performance metrics
+
+From the datasets, a [Random Forest Classification model](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) is obtained. 
+
+GridSearchCV is used to obtain the optimal parameters. Please see the `ML Pipeline Preparation.ipynb` file for more details.
+
+The performance metrics are as follows. 
+
+![Model performance](/images/model_performance.png)
+
+### b. Web app visualizations
+
+A screenshot of the visualizations are as follows. 
+
+![Visualizations](/images/flask_visualizations.png)
+
+
+## 2. Description of files in this folder
 The directory of the folder is as follows:
 * /app 
 	* run.py - Python file used to launch Flask web-application. 
@@ -19,7 +39,7 @@ The directory of the folder is as follows:
 * `README.md` - this file.
 
 
-## 2. Instructions:
+## 3. Instructions:
 1. Run the following commands in the project's root directory to set up your database and model.
 
     - To run ETL pipeline that cleans data and stores in database
@@ -30,5 +50,5 @@ The directory of the folder is as follows:
 2. Run the following command in the app's directory to run your web app.
     `python run.py`
 
-## 3. Summary 
+
 
