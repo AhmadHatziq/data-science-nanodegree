@@ -1,3 +1,11 @@
+'''
+    Access via: http://127.0.0.1:3001/ . 
+    Main python file to run Flask app. 
+    
+    Sample usage: python run.py
+        
+'''
+
 import json
 import plotly
 import pandas as pd
@@ -26,12 +34,12 @@ def tokenize(text):
 
     return clean_tokens
 
-# load data
-engine = create_engine('sqlite:///../data/YourDatabaseName.db')
-df = pd.read_sql_table('YourTableName', engine)
+# load database into dataframe, df. 
+engine = create_engine('sqlite:///../data/MESSAGES.db')
+df = pd.read_sql_table('MESSAGES', engine)
 
-# load model
-model = joblib.load("../models/your_model_name.pkl")
+# load classification model. 
+model = joblib.load("../models/classifier.pkl")
 
 
 # index webpage displays cool visuals and receives user input text for model
