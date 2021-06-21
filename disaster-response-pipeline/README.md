@@ -5,19 +5,19 @@ This project aims to create a web application which utilizes a machine learning 
 
 ### a. Model performance metrics
 
-From the datasets, a [Random Forest Classification model](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) is obtained. 
+From the 2 csv files, a [Random Forest Classification model](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) is trained. 
 
 GridSearchCV is used to obtain the optimal parameters. Please see the `ML Pipeline Preparation.ipynb` file for more details.
 
 The performance metrics are as follows. 
 
-![Model performance](/images/model_performance.png)
+![Model performance](https://github.com/AhmadHatziq/data-science-nanodegree/blob/main/disaster-response-pipeline/images/model_performance.png)
 
 ### b. Web app visualizations
 
 A screenshot of the visualizations are as follows. 
 
-![Visualizations](/images/flask_visualizations.png)
+![Visualizations](https://github.com/AhmadHatziq/data-science-nanodegree/blob/main/disaster-response-pipeline/images/flask_visualizations.png)
 
 
 ## 2. Description of files in this folder
