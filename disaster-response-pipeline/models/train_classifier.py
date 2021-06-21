@@ -79,7 +79,7 @@ def tokenize(text):
     # Tokenize words
     tokens = word_tokenize(text)
     
-    # normalization word tokens and remove stop words
+    # lemmatization word tokens and remove stop words
     lemmatizer = WordNetLemmatizer()
     stop_words = stopwords.words("english")
     
