@@ -16,7 +16,9 @@ import warnings
 
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
+from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, make_scorer, precision_recall_fscore_support
@@ -28,6 +30,7 @@ from sqlalchemy import create_engine
 
 nltk.download('punkt')
 nltk.download('stopwords')
+nltk.download('wordnet')
 warnings.simplefilter('ignore')
 
 def load_data(database_filepath):
@@ -77,12 +80,12 @@ def tokenize(text):
     tokens = word_tokenize(text)
     
     # normalization word tokens and remove stop words
-    normlizer = PorterStemmer()
+    lemmatizer = WordNetLemmatizer()
     stop_words = stopwords.words("english")
     
-    normlized = [normlizer.stem(word) for word in tokens if word not in stop_words]
+    lemmatized = [lemmatizer.lemmatize(word).lower().strip() for word in tokens if word not in stop_words]
     
-    return normlized
+    return lemmatized
    
 def get_metrics(y_test, y_pred):
     """
