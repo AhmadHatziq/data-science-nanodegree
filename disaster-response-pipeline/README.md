@@ -54,7 +54,7 @@ The directory of the folder is as follows:
         `python models/train_classifier.py data/MESSAGES.db models/classifier.pkl`
 
 2. Run the following command in the app's directory to run the Flask web app.
-    `python app/run.py`
+    `python run.py`
 
 
 
