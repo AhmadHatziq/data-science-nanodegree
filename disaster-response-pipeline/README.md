@@ -9,13 +9,13 @@ From the 2 csv files, a [Random Forest Classification model](https://scikit-lear
 
 GridSearchCV is used to obtain the optimal parameters. Please see the `ML Pipeline Preparation.ipynb` file for more details.
 
-The performance metrics are as follows. 
+The performance metrics are as follows: 
 
 ![Model performance](https://github.com/AhmadHatziq/data-science-nanodegree/blob/main/disaster-response-pipeline/images/model_performance.png)
 
 ### b. Web app visualizations
 
-A screenshot of the visualizations are as follows. 
+A screenshot of the visualizations are as follows:
 
 ![Visualizations](https://github.com/AhmadHatziq/data-science-nanodegree/blob/main/disaster-response-pipeline/images/flask_visualizations.png)
 
@@ -47,8 +47,8 @@ The directory of the folder is as follows:
     - To run ML pipeline that trains classifier and saves
         `python models/train_classifier.py data/MESSAGES.db models/classifier.pkl`
 
-2. Run the following command in the app's directory to run your web app.
-    `python run.py`
+2. Run the following command in the app's directory to run the Flask web app.
+    `python app/run.py`
 
 
 
