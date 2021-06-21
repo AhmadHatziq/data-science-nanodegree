@@ -92,7 +92,7 @@ def save_data(combined_df, database_filename):
     
     create_engine_string = r"sqlite:///" + database_filename
     engine = create_engine(create_engine_string)
-    combined_df.to_sql('MESSAGES', engine, index = False)
+    combined_df.to_sql('MESSAGES', engine, index = False, if_exists = 'replace')
     return
 
 
